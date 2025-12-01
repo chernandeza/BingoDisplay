@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Bingo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page">
+        <header class="page-header">
+            <div class="title-group">
+                <h1>Control de Bingo</h1>
+                <p class="subtitle">Ingresa el último número y comparte el tablero en vivo.</p>
+                <a class="nav-link" href="{{ url_for('tablero') }}">Ver pantalla de tablero</a>
+            </div>
+            <form action="/reset" method="POST" class="reset-form header-reset" onsubmit="return confirm('¿Reiniciar el juego y limpiar todas las llamadas?');">
+                <input type="hidden" name="destino" value="ingresar">
+                <button type="submit" class="reset">Reiniciar juego</button>
+                <span class="sr-only">Limpia todos los números cantados.</span>
+            </form>
+        </header>
+
+        <main class="layout-control">
+            <section class="call-input">
+                <h2>Ingresar número</h2>
+                <form action="/ingresar" method="POST" class="entry-form">
+                    <label for="numero">Último número:</label>
+                    <div class="input-row">
+                        <input id="numero" name="numero" type="number" min="1" max="75" required placeholder="1-75" aria-describedby="instrucciones">
+                        <button type="submit">Actualizar</button>
+                    </div>
+                    <p id="instrucciones" class="hint">Escribe el número recién cantado (1–75). No se permiten duplicados.</p>
+                </form>
+                {% if mensaje %}
+                <p class="feedback">{{ mensaje }}</p>
+                {% endif %}
+            </section>
+
+            <section class="current-call">
+                <h2>Última llamada</h2>
+                {% if ultima_llamada %}
+                    <div class="call-card">
+                        <div class="call-letter">{{ number_to_letter(ultima_llamada) }}</div>
+                        <div class="call-number">{{ ultima_llamada }}</div>
+                    </div>
+                {% else %}
+                    <p class="empty">Aún no hay números cantados.</p>
+                {% endif %}
+            </section>
+
+            <section class="board">
+                <h2>Números cantados</h2>
+                <div class="grid" role="grid" aria-label="Números cantados">
+                    <div class="grid-row grid-header" role="row">
+                        {% for letra in columnas.keys() %}
+                        <div class="cell" role="columnheader">{{ letra }}</div>
+                        {% endfor %}
+                    </div>
+                    {% for index in range(15) %}
+                    <div class="grid-row" role="row">
+                        {% for letra, numeros in columnas.items() %}
+                            {% set valor = numeros[index] %}
+                            {% set fue_llamado = valor in llamadas %}
+                            <div class="cell {{ 'called' if fue_llamado else '' }}" role="gridcell" aria-label="{{ letra }}{{ valor }}">
+                                <span class="cell-text">{{ valor }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

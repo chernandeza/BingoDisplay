@@ -39,6 +39,18 @@ body {
     min-height: 100vh;
 }
 
+body.tablero-body {
+    --bg: #f7f8fb;
+    --panel: #ffffff;
+    --text: #0c1428;
+    --muted: #1f2937;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    background: radial-gradient(circle at 15% 20%, rgba(0, 229, 255, 0.08), transparent 30%),
+                radial-gradient(circle at 85% 0%, rgba(255, 222, 89, 0.12), transparent 26%),
+                var(--bg);
+    color: var(--text);
+}
+
 .page {
     max-width: 1200px;
     margin: 0 auto;

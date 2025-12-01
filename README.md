@@ -1,6 +1,6 @@
 # Bingo Caller Display
 
-A lightweight Flask site to share the latest bingo call and show every number that has been revealed.
+Sitio Flask en español para cantar números de bingo y compartirlos en un tablero de alto contraste.
 
 ## Running locally
 
@@ -16,9 +16,9 @@ A lightweight Flask site to share the latest bingo call and show every number th
    python app.py
    ```
 
-3. Open `http://localhost:5000` to update and view calls.
+3. Abre `http://localhost:5000/ingresar` para ingresar números desde el celular y `http://localhost:5000/tablero` para proyectar el tablero.
 
-The page uses a high-contrast palette so it can be projected in bright rooms. Enter the newest number (1–75) to update the large call banner and highlight it on the board. Called numbers are stored in `data/called_numbers.json` so the board survives restarts.
+La interfaz está en español y usa colores de alto contraste para proyectarse en salas iluminadas. Ingresa el número recién cantado (1–75) para actualizar la ficha grande y marcarlo en el tablero. Los números se guardan en `data/called_numbers.json` para sobrevivir reinicios.
 
 ## Fresh Raspberry Pi OS setup (Pi 5)
 
@@ -55,7 +55,7 @@ Use these commands on a clean Raspberry Pi OS (64-bit) install. Replace `/home/p
    python app.py
    ```
 
-   Open `http://<pi-ip-address>:5000` from another device to view the board. Press `Ctrl+C` to stop the server.
+   Abre `http://<ip-del-pi>:5000/ingresar` en tu teléfono para cantar números y `http://<ip-del-pi>:5000/tablero` en la pantalla o proyector. Presiona `Ctrl+C` para detener el servidor.
 
 5. (Recommended) Run with Gunicorn as a service so it starts on boot:
 
@@ -83,10 +83,10 @@ Use these commands on a clean Raspberry Pi OS (64-bit) install. Replace `/home/p
    * Check status: `sudo systemctl status bingo-display`
    * View logs: `sudo journalctl -u bingo-display -f`
 
-6. Access the site at `http://<pi-ip-address>:8000`. Use the **Reset Game** button between games to reset the list. Persistent call data lives at `/home/pi/BingoDisplay/data/called_numbers.json`.
+6. Accede al sitio en `http://<ip-del-pi>:8000` (`/ingresar` para cargar números, `/tablero` para mostrar). Usa el botón **Reiniciar juego** entre partidas para limpiar la lista. Los datos persisten en `/home/pi/BingoDisplay/data/called_numbers.json`.
 
 ## Notes
 
-- The app stores called numbers in `data/called_numbers.json`; delete this file or use the **Reset Game** button to start a new game.
-- Gunicorn binds to port 8000 in the service example to avoid conflicts. Change the port in the unit file if you prefer another value.
-- For an HTTPS or reverse-proxy setup, place Nginx or another proxy in front of Gunicorn and point it to `http://127.0.0.1:8000`.
+- La app guarda los números en `data/called_numbers.json`; borra este archivo o usa el botón **Reiniciar juego** para empezar de cero.
+- Gunicorn escucha en el puerto 8000 en el ejemplo de servicio para evitar conflictos. Cambia el puerto en el unit file si prefieres otro valor.
+- Para HTTPS o proxy inverso, coloca Nginx u otro proxy delante de Gunicorn y apúntalo a `http://127.0.0.1:8000`.

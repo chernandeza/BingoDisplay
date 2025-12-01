@@ -74,6 +74,25 @@ h1 {
     font-size: 1rem;
 }
 
+.nav-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #0d2339;
+    color: var(--accent-2);
+    text-decoration: none;
+    font-weight: 700;
+    border: 2px solid var(--accent);
+    box-shadow: var(--shadow);
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+    background: #123053;
+    box-shadow: 0 15px 35px rgba(0, 229, 255, 0.35);
+}
+
 main {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -81,6 +100,22 @@ main {
         "input current"
         "board board";
     gap: 24px;
+}
+
+.layout-control {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        "input current"
+        "board board";
+    gap: 24px;
+}
+
+.layout-tablero {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 24px;
+    align-items: start;
 }
 
 .call-input {
@@ -193,6 +228,10 @@ main {
     box-shadow: var(--shadow);
 }
 
+.current-call--solo {
+    grid-column: span 1;
+}
+
 .call-card {
     display: grid;
     grid-template-columns: 180px 1fr;
@@ -281,7 +320,9 @@ main {
 }
 
 @media (max-width: 900px) {
-    main {
+    main,
+    .layout-control,
+    .layout-tablero {
         grid-template-columns: 1fr;
         grid-template-areas:
             "input"

@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, jsonify, redirect, render_template, request, url_for
 
 app = Flask(__name__)
 
@@ -53,25 +53,30 @@ def normalize_number(raw: str) -> int | None:
     return None
 
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    message = request.args.get("message") or None
-    last_call = called_numbers[-1] if called_numbers else None
+@app.route("/")
+def raiz():
+    return redirect(url_for("tablero"))
+
+
+@app.route("/ingresar", methods=["GET", "POST"])
+def ingresar():
+    mensaje = request.args.get("mensaje") or None
+    ultima_llamada = called_numbers[-1] if called_numbers else None
 
     if request.method == "POST":
-        raw_number = request.form.get("number")
+        raw_number = request.form.get("numero")
         value = normalize_number(raw_number)
 
         if value is None:
-            message = "Please enter a valid number between 1 and 75."
+            mensaje = "Ingresa un número válido entre 1 y 75."
         elif value in called_numbers:
-            message = f"{number_to_letter(value)}{value} has already been called."
+            mensaje = f"{number_to_letter(value)}{value} ya fue cantado."
         else:
             called_numbers.append(value)
             save_called_numbers(called_numbers)
-            return redirect(url_for("index"))
+            return redirect(url_for("ingresar"))
 
-        last_call = value if value is not None else last_call
+        ultima_llamada = value if value is not None else ultima_llamada
 
     board_columns = {
         "B": list(range(1, 16)),
@@ -82,11 +87,31 @@ def index():
     }
 
     return render_template(
-        "index.html",
-        message=message,
-        last_call=last_call,
-        called_numbers=set(called_numbers),
-        board_columns=board_columns,
+        "ingresar.html",
+        mensaje=mensaje,
+        ultima_llamada=ultima_llamada,
+        llamadas=set(called_numbers),
+        columnas=board_columns,
+        number_to_letter=number_to_letter,
+    )
+
+
+@app.route("/tablero")
+def tablero():
+    board_columns = {
+        "B": list(range(1, 16)),
+        "I": list(range(16, 31)),
+        "N": list(range(31, 46)),
+        "G": list(range(46, 61)),
+        "O": list(range(61, 76)),
+    }
+    ultima_llamada = called_numbers[-1] if called_numbers else None
+
+    return render_template(
+        "tablero.html",
+        ultima_llamada=ultima_llamada,
+        llamadas=set(called_numbers),
+        columnas=board_columns,
         number_to_letter=number_to_letter,
     )
 
@@ -95,7 +120,17 @@ def index():
 def reset_board():
     called_numbers.clear()
     save_called_numbers(called_numbers)
-    return redirect(url_for("index", message="Board cleared."))
+    destino = request.form.get("destino") or "ingresar"
+    return redirect(url_for(destino, mensaje="Tablero reiniciado."))
+
+
+@app.route("/estado")
+def estado():
+    ultima_llamada = called_numbers[-1] if called_numbers else None
+    return jsonify({
+        "ultima_llamada": ultima_llamada,
+        "llamadas": called_numbers,
+    })
 
 
 if __name__ == "__main__":

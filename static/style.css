@@ -1,0 +1,277 @@
+:root {
+    --bg: #0a0f1f;
+    --panel: #10172f;
+    --accent: #00e5ff;
+    --accent-2: #ffde59;
+    --danger: #ff5f5f;
+    --text: #f8fbff;
+    --muted: #9fb3c8;
+    --called: #0b7a3e;
+    --called-border: #10b981;
+    --shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+    font-size: 16px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    background: radial-gradient(circle at 10% 20%, rgba(0, 229, 255, 0.12), transparent 30%),
+                radial-gradient(circle at 80% 0%, rgba(255, 222, 89, 0.18), transparent 28%),
+                var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+.page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    color: var(--accent-2);
+    text-shadow: var(--shadow);
+}
+
+.subtitle {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 1rem;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        "input current"
+        "board board";
+    gap: 24px;
+}
+
+.call-input {
+    grid-area: input;
+    background: var(--panel);
+    border: 2px solid var(--accent);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.call-input h2,
+.current-call h2,
+.board h2 {
+    margin: 0 0 12px;
+    letter-spacing: 0.5px;
+}
+
+.entry-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.input-row input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid var(--accent);
+    background: #0c1328;
+    color: var(--text);
+    font-size: 1.1rem;
+}
+
+.input-row button {
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent);
+    color: #001018;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    box-shadow: var(--shadow);
+}
+
+.input-row button:hover,
+.input-row button:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 15px 35px rgba(0, 229, 255, 0.4);
+}
+
+.hint {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.reset-form {
+    margin-top: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.reset-form .reset {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background: var(--danger);
+    color: #2a0404;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: var(--shadow);
+}
+
+.reset-form .reset:hover,
+.reset-form .reset:focus-visible {
+    border-color: #ffb3b3;
+    box-shadow: 0 15px 35px rgba(255, 95, 95, 0.35);
+}
+
+.feedback {
+    margin: 12px 0 0;
+    color: #ff8f8f;
+    font-weight: 700;
+}
+
+.current-call {
+    grid-area: current;
+    background: var(--panel);
+    border: 2px solid var(--accent-2);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.call-card {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.15), rgba(255, 222, 89, 0.15));
+    border: 2px solid var(--accent);
+    border-radius: 20px;
+    padding: 16px 20px;
+}
+
+.call-letter {
+    font-size: 6rem;
+    font-weight: 900;
+    color: var(--accent-2);
+    text-align: center;
+    text-shadow: 0 0 25px rgba(255, 222, 89, 0.45);
+}
+
+.call-number {
+    font-size: 8rem;
+    font-weight: 900;
+    color: var(--accent);
+    text-shadow: 0 0 25px rgba(0, 229, 255, 0.45);
+}
+
+.empty {
+    color: var(--muted);
+    font-size: 1.1rem;
+}
+
+.board {
+    grid-area: board;
+    background: var(--panel);
+    border-radius: 16px;
+    border: 2px solid var(--accent);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+
+.grid-row {
+    display: contents;
+}
+
+.grid-header .cell {
+    background: #0d2339;
+    color: var(--accent-2);
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    border-color: var(--accent-2);
+}
+
+.cell {
+    position: relative;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #1c2b47;
+    background: #0c1328;
+    color: var(--text);
+    text-align: center;
+    font-weight: 700;
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.cell.called {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(16, 185, 129, 0.15));
+    border-color: var(--called-border);
+    color: #e8fff4;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
+    transform: translateY(-1px);
+}
+
+.cell-text {
+    font-size: 1.3rem;
+}
+
+@media (max-width: 900px) {
+    main {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "input"
+            "current"
+            "board";
+    }
+
+    .call-card {
+        grid-template-columns: 140px 1fr;
+    }
+
+    .call-letter {
+        font-size: 4.5rem;
+    }
+
+    .call-number {
+        font-size: 5.5rem;
+    }
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Caller Display</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page">
+        <header>
+            <h1>Bingo Caller Display</h1>
+            <p class="subtitle">Share the latest call and keep everyone in sync.</p>
+        </header>
+
+        <main>
+            <section class="call-input">
+                <h2>Call a Number</h2>
+                <form action="/" method="POST" class="entry-form">
+                    <label for="number">Last number:</label>
+                    <div class="input-row">
+                        <input id="number" name="number" type="number" min="1" max="75" required placeholder="1-75" aria-describedby="instructions">
+                        <button type="submit">Update</button>
+                    </div>
+                    <p id="instructions" class="hint">Enter the most recent bingo number (1–75). No duplicate calls.</p>
+                </form>
+                <form action="/reset" method="POST" class="reset-form" onsubmit="return confirm('Clear the called board?');">
+                    <button type="submit" class="reset">Clear Board</button>
+                    <p class="hint">Resets the list of called numbers (useful between games).</p>
+                </form>
+                {% if message %}
+                <p class="feedback">{{ message }}</p>
+                {% endif %}
+            </section>
+
+            <section class="current-call">
+                <h2>Current Call</h2>
+                {% if last_call %}
+                    <div class="call-card">
+                        <div class="call-letter">{{ number_to_letter(last_call) }}</div>
+                        <div class="call-number">{{ last_call }}</div>
+                    </div>
+                {% else %}
+                    <p class="empty">No numbers have been called yet.</p>
+                {% endif %}
+            </section>
+
+            <section class="board">
+                <h2>Called Numbers</h2>
+                <div class="grid" role="grid" aria-label="Called numbers">
+                    <div class="grid-row grid-header" role="row">
+                        {% for letter in board_columns.keys() %}
+                        <div class="cell" role="columnheader">{{ letter }}</div>
+                        {% endfor %}
+                    </div>
+                    {% for index in range(15) %}
+                    <div class="grid-row" role="row">
+                        {% for letter, numbers in board_columns.items() %}
+                            {% set value = numbers[index] %}
+                            {% set is_called = value in called_numbers %}
+                            <div class="cell {{ 'called' if is_called else '' }}" role="gridcell" aria-label="{{ letter }}{{ value }}">
+                                <span class="cell-text">{{ value }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -83,10 +83,10 @@ Use these commands on a clean Raspberry Pi OS (64-bit) install. Replace `/home/p
    * Check status: `sudo systemctl status bingo-display`
    * View logs: `sudo journalctl -u bingo-display -f`
 
-6. Access the site at `http://<pi-ip-address>:8000`. Use the **Clear Board** button between games to reset the list. Persistent call data lives at `/home/pi/BingoDisplay/data/called_numbers.json`.
+6. Access the site at `http://<pi-ip-address>:8000`. Use the **Reset Game** button between games to reset the list. Persistent call data lives at `/home/pi/BingoDisplay/data/called_numbers.json`.
 
 ## Notes
 
-- The app stores called numbers in `data/called_numbers.json`; delete this file or use the **Clear Board** button to start a new game.
+- The app stores called numbers in `data/called_numbers.json`; delete this file or use the **Reset Game** button to start a new game.
 - Gunicorn binds to port 8000 in the service example to avoid conflicts. Change the port in the unit file if you prefer another value.
 - For an HTTPS or reverse-proxy setup, place Nginx or another proxy in front of Gunicorn and point it to `http://127.0.0.1:8000`.

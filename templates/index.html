@@ -8,9 +8,15 @@
 </head>
 <body>
     <div class="page">
-        <header>
-            <h1>Bingo Caller Display</h1>
-            <p class="subtitle">Share the latest call and keep everyone in sync.</p>
+        <header class="page-header">
+            <div class="title-group">
+                <h1>Bingo Caller Display</h1>
+                <p class="subtitle">Share the latest call and keep everyone in sync.</p>
+            </div>
+            <form action="/reset" method="POST" class="reset-form header-reset" onsubmit="return confirm('Clear the called board and start a new game?');">
+                <button type="submit" class="reset">Reset Game</button>
+                <span class="sr-only">Clears all called numbers.</span>
+            </form>
         </header>
 
         <main>
@@ -23,10 +29,6 @@
                         <button type="submit">Update</button>
                     </div>
                     <p id="instructions" class="hint">Enter the most recent bingo number (1–75). No duplicate calls.</p>
-                </form>
-                <form action="/reset" method="POST" class="reset-form" onsubmit="return confirm('Clear the called board?');">
-                    <button type="submit" class="reset">Clear Board</button>
-                    <p class="hint">Resets the list of called numbers (useful between games).</p>
                 </form>
                 {% if message %}
                 <p class="feedback">{{ message }}</p>
